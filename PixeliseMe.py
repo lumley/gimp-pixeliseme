@@ -67,6 +67,11 @@ def transform_to_pixels_size(pImage, pDrawable, pPixelWidth, pPixelHeight):
     numColumns = width/pPixelWidth
     numRows = height/pPixelHeight
 
+    if width % pPixelWidth != 0:
+        numColumns += 1
+    if height % pPixelHeight != 0:
+        numRows += 1
+
     # We will create a working layer to allow us to undo these changes,
     # this is because changing a pixel region does not add any entry
     # in the history tracking
@@ -82,26 +87,35 @@ def transform_to_pixels_size(pImage, pDrawable, pPixelWidth, pPixelHeight):
     currentForegroundColorBackup = gimp.pdb.gimp_context_get_foreground()
     for column in range(numColumns):
         for row in range (numRows):
+            xRange = pPixelWidth
+            yRange = pPixelHeight
+            xPos = x1+column*pPixelWidth
+            yPos = y1+row*pPixelHeight
+
+            if column == numColumns-1 and xPos+xRange > x2:
+                xRange = x2 - xPos
+            if row == numRows-1 and yPos+yRange > y2:
+                yRange = y2 - yPos
             averageValue = get_average_pixel_value(pDrawable,
-                                                   x1+column*pPixelWidth,
-                                                   y1+row*pPixelHeight,
-                                                   pPixelWidth,
-                                                   pPixelHeight)
+                                                   xPos,
+                                                   yPos,
+                                                   xRange,
+                                                   yRange)
             averageValueString = ""
             for i in range(len(averageValue)):
                 averageValueString += chr(averageValue[i])
 
-            pixelRegion = workingLayer.get_pixel_rgn(x1+column*pPixelWidth,
-                                                 y1+row*pPixelHeight,
-                                                 pPixelWidth,
-                                                 pPixelHeight)
+            pixelRegion = workingLayer.get_pixel_rgn(xPos,
+                                                 yPos,
+                                                 xRange,
+                                                 yRange)
 
             # It would be way faster to apply column by column and not
             # pixel by pixel... future improvement!
-            for i in range(pPixelWidth):
-                for j in range(pPixelHeight):
-                    pixelRegion[x1+column*pPixelWidth+i,
-                                y1+row*pPixelHeight+j] = averageValueString
+            for i in range(xRange):
+                for j in range(yRange):
+                    pixelRegion[xPos+i,
+                                yPos+j] = averageValueString
             
             
         gimp.pdb.gimp_progress_update(column/float(numColumns))

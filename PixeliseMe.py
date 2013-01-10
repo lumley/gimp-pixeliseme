@@ -78,7 +78,7 @@ def transform_to_pixels_size(pImage, pDrawable, pPixelWidth, pPixelHeight):
     workingLayer = gimp.pdb.gimp_layer_new(pImage,
                                            pDrawable.width,
                                            pDrawable.height,
-                                           RGBA_IMAGE,
+                                           pDrawable.type,
                                            pDrawable.name,
                                            100,
                                            NORMAL_MODE)
@@ -102,7 +102,7 @@ def transform_to_pixels_size(pImage, pDrawable, pPixelWidth, pPixelHeight):
                                                    xRange,
                                                    yRange)
             averageValueString = ""
-            for i in range(len(averageValue)):
+            for i in range(pDrawable.bpp):
                 averageValueString += chr(averageValue[i])
 
             pixelRegion = workingLayer.get_pixel_rgn(xPos,

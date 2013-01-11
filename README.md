@@ -2,7 +2,7 @@
 
 This script will transform any selected region (or active layer) into a set of big pixels, depending on the specified pixel size. It does not calculate an average value between pixels, it only calculates the most common pixel inside the given pixel size, if no color is repeated, a random pixel will be picked up to fill the whole area (most probable, the upper left pixel).
 
-The plugin has been created and tested in Gimp2.8.
+The plugin has been created only for learning purposes, and has been tested in Gimp2.8.
 
 ## Requirements
 This plugin requires the following:

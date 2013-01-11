@@ -11,6 +11,7 @@ This plugin requires the following:
 
 ## Installation
 Installation of this plugin goes like any other Python-fu plugin. Just download the file and move it to your GIMP plug-ins folder (by default, "%USERPROFILE%\\.gimp-2.8\plug-ins\" in Windows and "~/.gimp-2.8/plug-ins/" in Linux).
+
 Once installed you will find the plugin in Gimp menu: Filters -> Blur -> Pixelise me
 
 ## Collaborate

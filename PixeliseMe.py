@@ -148,7 +148,7 @@ register(
     "Sergio R. Lumley", # Author of the plugin
     "You are free to use, distribute and sell this plugin under license GPLv3", # Copyright information
     "10 January 2013", # Date of plugin
-    "<Image>/Filters/Conversion/Pixelise me", 
+    "<Image>/Filters/Blur/Pixelise me", 
     "*", 
     [(PF_INT16, "tiles_x", "Width of pixel", 4, None),
      (PF_INT16, "tiles_y", "Height of pixel", 4, None),], 

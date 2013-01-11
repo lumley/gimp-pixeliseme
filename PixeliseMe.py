@@ -25,7 +25,7 @@
 # It does not calculate an average value between pixels, it only
 # calculates the most common pixel inside the given pixel size,
 # if no color is repeated, a random pixel will be picked up to fill
-# the whole area (most probable, the upper left pixel)
+# the whole area (center pixel)
 
 # This tells Python to load the Gimp module 
 from gimpfu import *
@@ -34,7 +34,7 @@ def get_average_pixel_value(pDrawable, pOffsetX, pOffsetY, pRegionWidth, pRegion
     pixelValues = {}
     mostRepeatedPixelTuple = (0, 0, 0, 0)
     mostRepeatedPixelValue = 1
-    midPoint = pRegionWidth*pRegionHeight
+    midPoint = (pRegionWidth*pRegionHeight)/2
     for i in range(pRegionWidth*pRegionHeight):    
         pixelValue = []
         result = gimp.pdb.gimp_drawable_get_pixel(pDrawable,

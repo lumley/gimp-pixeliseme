@@ -32,9 +32,14 @@ from gimpfu import *
 
 def get_average_pixel_value(pDrawable, pOffsetX, pOffsetY, pRegionWidth, pRegionHeight):
     pixelValues = {}
-    for pixel in range(pRegionWidth*pRegionHeight):    
+    mostRepeatedPixelTuple = (0, 0, 0, 0)
+    mostRepeatedPixelValue = 1
+    midPoint = pRegionWidth*pRegionHeight
+    for i in range(pRegionWidth*pRegionHeight):    
         pixelValue = []
-        result = gimp.pdb.gimp_drawable_get_pixel(pDrawable, pOffsetX, pOffsetY)
+        result = gimp.pdb.gimp_drawable_get_pixel(pDrawable,
+                                                  pOffsetX+i%pRegionWidth,
+                                                  pOffsetY+i/pRegionWidth)
         for channel in range(result[0]):
             pixelValue.append(result[1][channel])
         pixelTuple = tuple(pixelValue)
@@ -42,9 +47,9 @@ def get_average_pixel_value(pDrawable, pOffsetX, pOffsetY, pRegionWidth, pRegion
             pixelValues[pixelTuple] = pixelValues[pixelTuple]+1
         else:
             pixelValues[pixelTuple] = 1
+        if i == midPoint:
+            mostRepeatedPixelTuple = pixelTuple
 
-    mostRepeatedPixelTuple = (0, 0, 0, 0)
-    mostRepeatedPixelValue = 0
     for mapValue in pixelValues.viewitems():
         if mapValue[1] > mostRepeatedPixelValue:
             mostRepeatedPixelValue = mapValue[1]
